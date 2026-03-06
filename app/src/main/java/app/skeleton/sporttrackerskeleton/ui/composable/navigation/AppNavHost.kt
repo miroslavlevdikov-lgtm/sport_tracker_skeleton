@@ -1,6 +1,5 @@
 package app.skeleton.sporttrackerskeleton.ui.composable.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,11 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.history.HistoryScreen
+import app.skeleton.sporttrackerskeleton.ui.composable.screen.onboarding.OnboardingScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.settings.SettingsScreen
-import app.skeleton.sporttrackerskeleton.ui.composable.screen.signup.SignUpScreen
+import app.skeleton.sporttrackerskeleton.ui.composable.screen.splash.SplashScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.statistics.StatisticsScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.usercabinet.UserProfileScreen
-import app.skeleton.sporttrackerskeleton.ui.composable.screen.welcome.WelcomeScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.workout.WorkoutScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.workoutdetails.WorkoutDetailsScreen
 
@@ -23,19 +22,38 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Welcome,
+        startDestination = NavRoute.Splash,
         modifier = modifier,
     ) {
-        composable<NavRoute.Welcome> {
-            WelcomeScreen(
-                onNavigateToSignUp = {
-                    navController.navigate(NavRoute.SignUp)
-                },
-                onNavigateToWorkout = {
-                    navController.navigate(NavRoute.Workout) {
-                        popUpTo(NavRoute.Welcome) {
+        composable<NavRoute.Splash> {
+            SplashScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate(route = NavRoute.Workout) {
+                        popUpTo(navController.graph.startDestinationId) {
                             inclusive = true
                         }
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToOnboarding = {
+                    navController.navigate(route = NavRoute.Onboarding) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+
+        composable<NavRoute.Onboarding> {
+            OnboardingScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate(NavRoute.Workout) {
+                        popUpTo(NavRoute.Onboarding) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
                     }
                 }
             )
@@ -68,20 +86,6 @@ fun AppNavHost(
 
         composable<NavRoute.Settings> {
             SettingsScreen()
-        }
-
-        composable<NavRoute.SignUp> {
-            SignUpScreen(
-                modifier = Modifier.fillMaxSize(),
-                onNavigateToWorkoutScreen = {
-                    navController.navigate(NavRoute.Workout) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
-                    }
-                }
-            )
         }
 
         composable<NavRoute.UserProfile> {

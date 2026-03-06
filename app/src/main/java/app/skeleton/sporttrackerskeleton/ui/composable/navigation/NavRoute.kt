@@ -3,6 +3,11 @@ package app.skeleton.sporttrackerskeleton.ui.composable.navigation
 import kotlinx.serialization.Serializable
 
 sealed class NavRoute {
+    @Serializable
+    object Splash : NavRoute()
+
+    @Serializable
+    object Onboarding : NavRoute()
 
     @Serializable
     object Workout : NavRoute()
@@ -15,12 +20,6 @@ sealed class NavRoute {
 
     @Serializable
     object Settings : NavRoute()
-
-    @Serializable
-    object Welcome : NavRoute()
-
-    @Serializable
-    object SignUp : NavRoute()
 
     @Serializable
     object UserProfile : NavRoute()

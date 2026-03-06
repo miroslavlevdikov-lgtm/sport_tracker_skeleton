@@ -27,11 +27,7 @@ class WorkoutDetailsViewModel(
                     .getById(workoutId)
                     ?.exercises
 
-                if (exercises.isNullOrEmpty()) {
-                    DataUiState.Empty
-                } else {
-                    DataUiState.Data(exercises)
-                }
+                DataUiState.from(exercises)
             }
         }
     }

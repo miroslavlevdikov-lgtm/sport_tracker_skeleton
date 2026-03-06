@@ -3,6 +3,7 @@ package app.skeleton.sporttrackerskeleton.ui.composable.approot
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -16,9 +17,7 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.BottomNavigationItem
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.NavRoute
-import app.skeleton.sporttrackerskeleton.ui.theme.Border
-import app.skeleton.sporttrackerskeleton.ui.theme.TextPrimary
-import app.skeleton.sporttrackerskeleton.ui.theme.TopBottomBar
+
 
 @Composable
 fun AppBottomBar(
@@ -28,8 +27,8 @@ fun AppBottomBar(
 ) {
 
     NavigationBar(
-        containerColor = TopBottomBar,
-        contentColor = TextPrimary,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
     ) {
         navigationItems.forEach { item ->
             NavigationBarItem(
@@ -53,27 +52,4 @@ private fun isSelectedDestination(destination: NavDestination?, route: NavRoute)
     return destination?.let {
         destination.hierarchy.any { navDestination -> navDestination.hasRoute(route::class) }
     } ?: return false
-}
-
-//TODO delete or use it
-@Composable
-fun AppBottomBarBorder(
-    currentDestination: NavDestination?,
-    navigationItems: List<BottomNavigationItem>,
-    onNavigateToRoute: (BottomNavigationItem) -> Unit,
-    borderColor: Color = Border,
-    borderThickness: Dp = 1.2.dp,
-) {
-    Column() {
-        HorizontalDivider(
-            color = borderColor,
-            thickness = borderThickness
-        )
-
-        AppBottomBar(
-            currentDestination = currentDestination,
-            navigationItems = navigationItems,
-            onNavigateToRoute = onNavigateToRoute,
-        )
-    }
 }

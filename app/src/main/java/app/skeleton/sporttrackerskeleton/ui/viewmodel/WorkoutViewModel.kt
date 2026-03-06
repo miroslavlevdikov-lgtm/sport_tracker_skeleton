@@ -27,11 +27,7 @@ class WorkoutViewModel(
         viewModelScope.launch {
             workoutRepository.observeAll().collect { workouts ->
                 _workoutsStateState.update {
-                    if (workouts.isEmpty()) {
-                        DataUiState.Empty
-                    } else {
-                        DataUiState.Data(workouts)
-                    }
+                    DataUiState.from(workouts)
                 }
             }
         }

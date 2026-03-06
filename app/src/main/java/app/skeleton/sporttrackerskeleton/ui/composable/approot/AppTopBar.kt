@@ -1,6 +1,5 @@
 package app.skeleton.sporttrackerskeleton.ui.composable.approot
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,15 +25,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import app.skeleton.sporttrackerskeleton.R
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.NavRoute
-import app.skeleton.sporttrackerskeleton.ui.theme.Border
-import app.skeleton.sporttrackerskeleton.ui.theme.TextPrimary
-import app.skeleton.sporttrackerskeleton.ui.theme.TopBottomBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,8 +38,8 @@ fun AppTopBar(
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = TopBottomBar,
-            titleContentColor = TextPrimary,
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         title = {
             Text(
@@ -91,14 +86,14 @@ private fun getTitle(currentDestination: NavDestination?): Int? {
 fun WorkoutTopBar(
     userName: String,
     onLogoClick: () -> Unit,
-    borderColor: Color = Border,
+    borderColor: Color = MaterialTheme.colorScheme.outline,
     borderThickness: Dp = 1.2.dp,
 ) {
     Column() {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = TopBottomBar,
-                titleContentColor = TextPrimary,
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
             ),
             title = {
                 Row(
@@ -146,7 +141,7 @@ fun WorkoutTopBar(
 @Composable
 fun AppTopBarBorder(
     currentDestination: NavDestination?,
-    borderColor: Color = Border,
+    borderColor: Color = MaterialTheme.colorScheme.outline,
     borderThickness: Dp = 1.2.dp,
 ) {
     Column() {
@@ -157,32 +152,6 @@ fun AppTopBarBorder(
         HorizontalDivider(
             color = borderColor,
             thickness = borderThickness
-        )
-    }
-}
-
-@Composable
-private fun TitleWithLogo(
-    @DrawableRes logoRes: Int,
-    currentDestination: NavDestination?
-) {
-    Row {
-        Spacer(modifier = Modifier.width(4.dp))
-
-        Image(
-            painter = painterResource(logoRes),
-            contentDescription = "App Logo",
-            modifier = Modifier.size(36.dp)
-        )
-
-        Spacer(modifier = Modifier.width(15.dp))
-
-        Text(
-            text = getTitle(currentDestination)
-                ?.let { stringResource(it).uppercase() }
-                .orEmpty(),
-            fontSize = 22.sp,
-            modifier = Modifier.align(Alignment.Bottom)
         )
     }
 }

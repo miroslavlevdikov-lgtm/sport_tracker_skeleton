@@ -1,12 +1,10 @@
 package app.skeleton.sporttrackerskeleton.di
 
-import androidx.room.Room
-import app.skeleton.sporttrackerskeleton.data.database.AppDatabase
-import app.skeleton.sporttrackerskeleton.data.datastore.UserManager
 import app.skeleton.sporttrackerskeleton.data.mapper.CompleteWorkoutMapper
 import app.skeleton.sporttrackerskeleton.data.mapper.CompleteWorkoutMapperImpl
 import app.skeleton.sporttrackerskeleton.data.repository.CompleteWorkoutRepository
 import app.skeleton.sporttrackerskeleton.data.repository.CompleteWorkoutRepositoryImpl
+import app.skeleton.sporttrackerskeleton.data.repository.OnboardingRepository
 import app.skeleton.sporttrackerskeleton.data.repository.StatisticsRepository
 import app.skeleton.sporttrackerskeleton.data.repository.StatisticsRepositoryImpl
 import app.skeleton.sporttrackerskeleton.data.repository.UserRepository
@@ -17,17 +15,14 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataModule = module {
-    single { UserManager(get()) }
+    includes(databaseModule, dataStoreModule)
 
     single {
-        Room.databaseBuilder(
-            context = get(),
-            klass = AppDatabase::class.java,
-            name = "database-name"
-        ).build()
+        OnboardingRepository(
+            onboardingDataStoreManager = get(),
+            coroutineDispatcher = get(named("IO"))
+        )
     }
-
-    single { get<AppDatabase>().statisticsDao() }
 
     single<CompleteWorkoutMapper> {
         CompleteWorkoutMapperImpl()
@@ -37,7 +32,7 @@ val dataModule = module {
         WorkoutRepositoryImpl()
     }
 
-    single<CompleteWorkoutRepository>  {
+    single<CompleteWorkoutRepository> {
         CompleteWorkoutRepositoryImpl(
             completeWorkoutDao = get(),
             completeWorkoutMapper = get(),

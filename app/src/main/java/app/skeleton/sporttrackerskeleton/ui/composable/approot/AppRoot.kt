@@ -7,6 +7,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +21,6 @@ import app.skeleton.sporttrackerskeleton.R
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.AppNavHost
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.BottomNavigationItem
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.NavRoute
-import app.skeleton.sporttrackerskeleton.ui.theme.Background
 import app.skeleton.sporttrackerskeleton.ui.viewmodel.AppViewModel
 import org.koin.androidx.compose.koinViewModel
 import kotlin.reflect.KClass
@@ -49,14 +49,14 @@ private val bottomNaviItems: List<BottomNavigationItem> = listOf(
 )
 
 private val topBarHiddenScreens = listOf(
-    NavRoute.SignUp::class,
-    NavRoute.Welcome::class,
+    NavRoute.Splash::class,
+    NavRoute.Onboarding::class,
 )
 
 private val bottomBarHiddenScreens = listOf(
-    NavRoute.SignUp::class,
     NavRoute.UserProfile::class,
-    NavRoute.Welcome::class,
+    NavRoute.Splash::class,
+    NavRoute.Onboarding::class,
 )
 
 @Composable
@@ -83,8 +83,8 @@ fun AppRoot(
 
     val isWorkoutScreen = currentDestination?.hasRoute(NavRoute.Workout::class) == true
 
-    val shouldShowTopAppBar = currentDestination.shouldShowScreenPart(topBarHiddenScreens)
-    val shouldShowBottomBar = currentDestination.shouldShowScreenPart(bottomBarHiddenScreens)
+    val shouldShowTopAppBar = !currentDestination.matchesAnyRoute(topBarHiddenScreens)
+    val shouldShowBottomBar = !currentDestination.matchesAnyRoute(bottomBarHiddenScreens)
 
     Scaffold(
         modifier = modifier,
@@ -118,7 +118,7 @@ fun AppRoot(
                 )
             }
         },
-        containerColor = Background,
+        containerColor = MaterialTheme.colorScheme.background,
     ) { paddingValues ->
         AppNavHost(
             navController = navController,
@@ -129,8 +129,8 @@ fun AppRoot(
     }
 }
 
-fun NavDestination?.shouldShowScreenPart(hiddenScreens: List<KClass<*>>): Boolean {
+fun NavDestination?.matchesAnyRoute(routes: List<KClass<out NavRoute>>): Boolean {
     return this?.let { destination ->
-        hiddenScreens.none { destination.hasRoute(it) }
-    } ?: false
+        routes.any { route -> destination.hasRoute(route) }
+    } == true
 }

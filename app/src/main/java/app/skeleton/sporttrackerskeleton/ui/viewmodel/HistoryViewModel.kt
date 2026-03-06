@@ -6,7 +6,13 @@ import app.skeleton.sporttrackerskeleton.data.model.CompleteWorkoutModel
 import app.skeleton.sporttrackerskeleton.data.repository.CompleteWorkoutRepository
 import app.skeleton.sporttrackerskeleton.data.util.CalendarHelper
 import app.skeleton.sporttrackerskeleton.ui.state.DataUiState
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -54,8 +60,7 @@ class HistoryViewModel(
             completeWorkoutRepository.observeAllByDate(date)
                 .collect { workouts ->
                     _completeWorkoutsState.update {
-                        if (workouts.isEmpty()) DataUiState.Empty
-                        else DataUiState.Data(workouts)
+                        DataUiState.from(workouts)
                     }
                 }
         }
