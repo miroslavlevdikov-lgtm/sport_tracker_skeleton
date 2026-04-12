@@ -1,23 +1,19 @@
 package app.skeleton.sporttrackerskeleton.ui.composable.approot
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.BottomNavigationItem
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.NavRoute
-
 
 @Composable
 fun AppBottomBar(
@@ -25,7 +21,6 @@ fun AppBottomBar(
     navigationItems: List<BottomNavigationItem>,
     onNavigateToRoute: (BottomNavigationItem) -> Unit,
 ) {
-
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -43,6 +38,14 @@ fun AppBottomBar(
                 label = {
                     Text(text = stringResource(item.titleRes))
                 },
+
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    indicatorColor = Color.Transparent,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                ),
             )
         }
     }

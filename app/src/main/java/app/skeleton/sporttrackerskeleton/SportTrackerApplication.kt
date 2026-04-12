@@ -8,7 +8,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 
-class SportTrackerApp : Application() {
+class SportTrackerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -16,7 +16,7 @@ class SportTrackerApp : Application() {
 
         startKoin {
             androidLogger()
-            androidContext(this@SportTrackerApp)
+            androidContext(this@SportTrackerApplication)
             modules(appModules)
         }
     }

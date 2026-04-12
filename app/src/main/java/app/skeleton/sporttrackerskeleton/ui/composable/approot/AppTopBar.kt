@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,22 +35,44 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import app.skeleton.sporttrackerskeleton.R
 import app.skeleton.sporttrackerskeleton.ui.composable.navigation.NavRoute
+import kotlin.reflect.KClass
+
+private val canNavigateBackRoutes: List<KClass<out NavRoute>> = listOf(
+    NavRoute.UserProfile::class,
+    NavRoute.WorkoutDetail::class,
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
     currentDestination: NavDestination?,
+    onNavigateBack: () -> Unit,
 ) {
+    val canNavigateBack = currentDestination.matchesAnyRoute(canNavigateBackRoutes)
+
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-        ),
         title = {
             Text(
                 text = getTitle(currentDestination)?.let { stringResource(it) }.orEmpty()
             )
-        }
+        },
+
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Navigate Back",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
+            }
+        },
+
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+        ),
     )
 }
 
@@ -86,10 +113,8 @@ private fun getTitle(currentDestination: NavDestination?): Int? {
 fun WorkoutTopBar(
     userName: String,
     onLogoClick: () -> Unit,
-    borderColor: Color = MaterialTheme.colorScheme.outline,
-    borderThickness: Dp = 1.2.dp,
 ) {
-    Column() {
+    Column {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -100,7 +125,7 @@ fun WorkoutTopBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.ic_launcher_foreground),
+                        imageVector = Icons.Default.AccountCircle,
                         contentDescription = "App Logo",
                         modifier = Modifier
                             .size(36.dp)
@@ -120,7 +145,6 @@ fun WorkoutTopBar(
                         Text(
                             text = "Welcome back,",
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                         )
                         Text(
                             text = userName,
@@ -129,29 +153,6 @@ fun WorkoutTopBar(
                     }
                 }
             }
-        )
-
-        HorizontalDivider(
-            color = borderColor,
-            thickness = borderThickness
-        )
-    }
-}
-
-@Composable
-fun AppTopBarBorder(
-    currentDestination: NavDestination?,
-    borderColor: Color = MaterialTheme.colorScheme.outline,
-    borderThickness: Dp = 1.2.dp,
-) {
-    Column() {
-        AppTopBar(
-            currentDestination = currentDestination,
-        )
-
-        HorizontalDivider(
-            color = borderColor,
-            thickness = borderThickness
         )
     }
 }

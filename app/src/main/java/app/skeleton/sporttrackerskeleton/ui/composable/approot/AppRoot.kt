@@ -57,6 +57,7 @@ private val bottomBarHiddenScreens = listOf(
     NavRoute.UserProfile::class,
     NavRoute.Splash::class,
     NavRoute.Onboarding::class,
+    NavRoute.WorkoutDetail::class,
 )
 
 @Composable
@@ -101,8 +102,9 @@ fun AppRoot(
                     }
 
                     else -> {
-                        AppTopBarBorder(
+                        AppTopBar(
                             currentDestination = currentDestination,
+                            onNavigateBack = { navController.popBackStack() },
                         )
                     }
                 }
