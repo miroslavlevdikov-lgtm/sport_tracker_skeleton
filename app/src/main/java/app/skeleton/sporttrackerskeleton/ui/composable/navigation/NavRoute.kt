@@ -26,4 +26,8 @@ sealed class NavRoute {
 
     @Serializable
     data class WorkoutDetail(val id: Int) : NavRoute()
+
+    //[COMMON][PrepRoute]
+
+    //[COMMON][DetailsRoute]
 }

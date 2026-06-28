@@ -40,4 +40,6 @@
     <string name="button_sign_up_text">Sign Up</string>
     <string name="button_update_text">Save Changes</string>
     <string name="button_reset_progress_text">Reset Progress</string>
+
+    <!--[FIREBASE][notification_channel]-->
 </resources>

@@ -1,11 +1,14 @@
 package app.skeleton.sporttrackerskeleton.ui.composable.navigation
 
+//[COMMON][import_fillMaxSize]
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+//[COMMON][import_DetailsScreen]
+//[COMMON][import_PrepScreen]
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.history.HistoryScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.onboarding.OnboardingScreen
 import app.skeleton.sporttrackerskeleton.ui.composable.screen.settings.SettingsScreen
@@ -26,6 +29,10 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable<NavRoute.Splash> {
+            //[COMMON][PrepComposable]
+
+            //[COMMON][DetailsComposable]
+
             SplashScreen(
                 onNavigateToHomeScreen = {
                     navController.navigate(route = NavRoute.Workout) {
