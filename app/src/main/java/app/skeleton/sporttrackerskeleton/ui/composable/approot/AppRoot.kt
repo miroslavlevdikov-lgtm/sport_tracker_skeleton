@@ -51,6 +51,8 @@ private val bottomNaviItems: List<BottomNavigationItem> = listOf(
 private val topBarHiddenScreens = listOf(
     NavRoute.Splash::class,
     NavRoute.Onboarding::class,
+    //[COMMON][TopPrepRouteClass]
+    //[COMMON][TopDetailsRouteClass]
 )
 
 private val bottomBarHiddenScreens = listOf(
@@ -58,6 +60,8 @@ private val bottomBarHiddenScreens = listOf(
     NavRoute.Splash::class,
     NavRoute.Onboarding::class,
     NavRoute.WorkoutDetail::class,
+    //[COMMON][BottomPrepRouteClass]
+    //[COMMON][BottomDetailsRouteClass]
 )
 
 @Composable
